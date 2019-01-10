@@ -1,8 +1,6 @@
 package cn.itrip.controller;
 
 import cn.itrip.beans.dtos.Dto;
-import cn.itrip.beans.pojo.ItripHotel;
-import cn.itrip.beans.pojo.ItripHotelOrder;
 import cn.itrip.beans.vo.order.ItripPersonalOrderRoomVO;
 import cn.itrip.beans.vo.order.PreAddOrderVO;
 import cn.itrip.beans.vo.order.ValidateRoomStoreVO;
