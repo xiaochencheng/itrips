@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itrip.dao.hotelorder.HotelorderMapper">
+
+    <select id="getPersonalOrderRoomInfo" resultType="cn.itrip.beans.vo.order.ItripPersonalOrderRoomVO">
+        SELECT address,bookingDays,checkInDate,checkOutDate,COUNT,room.hotelId,hotelLevel,hotel.hotelName,hotelorder.id,isHavingBreakfast,linkUserName,payAmount,roomBedTypeName,roomId,room.payType,roomTitle,specialRequirement  FROM itrip_hotel hotel,itrip_hotel_order hotelorder,
+        (SELECT itrip_hotel_room.*,NAME roomBedTypeName
+        FROM itrip_hotel_room,itrip_label_dic
+        WHERE roomBedTypeId = itrip_label_dic.id) room
+        WHERE hotel.id = hotelorder.hotelId
+        AND room.id = hotelorder.roomId
+        AND hotelorder.id = #{orderId};
+</select>
+
+    <select id="getPreOrderInfo" resultType="cn.itrip.beans.pojo.ItripHotelOrder">
+        select*from
+        itrip_hotel_order
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="checkInDate != null and checkInDate!=''">
+                and checkInDate=#{checkInDate}
+            </if>
+            <if test="checkOutDate != null and checkOutDate!=''">
+                and checkOutDate=#{checkOutDate}
+            </if>
+            <if test="count != null and count!=''">
+                and count=#{count}
+            </if>
+            <if test="roomId != null and roomId!=''">
+                and roomId=#{roomId}
+            </if>
+            <if test="hotelId != null and hotelId!=''">
+                and hotelId=#{hotelId}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getHotelOrderStore" resultType="_int">
+        select avg(store) store from itrip_hotel_temp_store
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test=" hotelId != null and hotelId!=''">
+                and hotelId =#{hotelId}
+            </if>
+            <if test=" roomId != null and roomId!=''">
+                and roomId =#{roomId}
+            </if>
+        </trim>
+    </select>
+
+</mapper>
